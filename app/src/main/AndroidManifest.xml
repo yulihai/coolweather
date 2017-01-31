@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.WeatherActivity"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
