@@ -1,5 +1,6 @@
 package com.lihai.coolweather.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.lihai.coolweather.R;
 import com.lihai.coolweather.gson.Forecast;
 import com.lihai.coolweather.gson.Weather;
+import com.lihai.coolweather.service.AutoUpdateService;
 import com.lihai.coolweather.utils.HttpUtil;
 import com.lihai.coolweather.utils.Utility;
 
@@ -156,6 +158,8 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.apply();
                             showWeatherInfo(weather);
+                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);  //TODO
+                            startActivity(intent);
                         }else {
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
                         }
