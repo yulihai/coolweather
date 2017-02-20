@@ -101,6 +101,8 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navButton = (Button) findViewById(R.id.nav_button);
+
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
