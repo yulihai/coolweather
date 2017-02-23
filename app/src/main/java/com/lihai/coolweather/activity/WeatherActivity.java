@@ -145,7 +145,7 @@ public class WeatherActivity extends AppCompatActivity {
      * 根据天气id请求城市天气信息
      */
     public void requestWeather(final String weatherId){
-        String weatherUrl = "http://guolin.tech/aqi/weather?cityid=" + weatherId + "&key=e591f823d4e94877b5a5a423e3cb6729";
+        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=e591f823d4e94877b5a5a423e3cb6729";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
 
             @Override
@@ -158,10 +158,11 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         if (weather != null && "ok".equals(weather.status)){
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                            editor.putString("weather",responseText);
                             editor.apply();
                             showWeatherInfo(weather);
-                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);  //TODO
-                            startActivity(intent);
+                         //   Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);  //TODO
+                         //   startActivity(intent);
                         }else {
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
                         }
@@ -220,7 +221,7 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void showWeatherInfo(Weather weather){
         String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.updata.updateTime.split(" ")[1];
+        String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
@@ -257,7 +258,8 @@ public class WeatherActivity extends AppCompatActivity {
         sportText.setText(sport);
 
         weatherLayout.setVisibility(View.VISIBLE);
-
+        Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);  //TODO
+        startService(intent);
 
     }
 

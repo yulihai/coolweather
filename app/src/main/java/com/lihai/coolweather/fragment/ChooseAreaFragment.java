@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,7 @@ public class ChooseAreaFragment extends Fragment {
         titleText = (TextView) view.findViewById(R.id.title_text);
         backButton = (Button) view.findViewById(R.id.back_button);
         listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,dataList);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
         return view;
     }
@@ -106,7 +107,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if (currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
-                }else if (currentLevel == LEVEL_CITY){
+                }else if (currentLevel == LEVEL_COUNTY){
 
                     String weatherId = countyList.get(position).getWeatherId();
                     if (getActivity() instanceof MainActivity) {
@@ -133,7 +134,7 @@ public class ChooseAreaFragment extends Fragment {
                 }
             }
         });
-        queryProvinces();
+       queryProvinces();   //TODO
     }
 
     /**
@@ -145,13 +146,16 @@ public class ChooseAreaFragment extends Fragment {
         provinceList = DataSupport.findAll(Province.class);
         if (provinceList.size()>0){
             dataList.clear();
+         //   Log.e("ChooseAreaFragment","log1.............");
             for (Province province : provinceList){
                 dataList.add(province.getProvinceName());
+             //   Log.e("ChooseAreaFragment","log2.............");
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         }else {
+           // Log.e("ChooseAreaFragment","log3.............");
             String address = "http://guolin.tech/api/china";
             queryFromServer(address, "province");
         }
